@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import InkScene from './InkScene.astro';
+import Arrow from './Arrow.astro';
+import ReviewFlow from './ReviewFlow.astro';
+import EngineeringJourney from './EngineeringJourney.astro';
+import OpenSource from './OpenSource.astro';
+import { copy, profile, publicName, asset, route, localize, type Locale } from '../data/site';
+import { projects } from '../data/projects';
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = copy[lang];
+const t = (en: string, zh: string) => localize(lang, en, zh);
+const loom = projects[0];
+const raise = projects[1];
+const resumeUrl = profile.resume ? (profile.resume.startsWith('https://') ? profile.resume : asset(profile.resume)) : null;
+---
+<Layout lang={lang}>
+  <section class="hero hero-v2 wrap" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="hero-position"><strong>{publicName}</strong><span aria-hidden="true"> / </span>{c.position}</p>
+      <h1 id="hero-title">
+        {c.heroLines.map((line, i) => <span class={i === c.heroLines.length - 1 ? 'underlined' : undefined}>{line}{i === c.heroLines.length - 1 && <svg viewBox="0 0 580 24" preserveAspectRatio="none" aria-hidden="true"><path d="M5 15C132 3 401 5 570 13M14 20c188-9 362-5 552-1"/></svg>}</span>)}
+      </h1>
+      <p class="hero-intro">{c.intro}</p>
+      <div class="hero-links">
+        <a class="button button-yellow" href={route(lang, 'work/linkloom/')}>{c.viewWork}<Arrow /></a>
+        {profile.email ? <a class="text-link" href={'mailto:' + profile.email}>{c.contact}<Arrow diagonal /></a> : <span class="contact-pending">{c.contact} <small>{c.contactPending}</small></span>}
+        <a class="text-link hero-github" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub<Arrow diagonal /></a>
+        {resumeUrl && <a class="text-link" href={resumeUrl}>{t('Résumé', '简历')}<Arrow /></a>}
+      </div>
+    </div>
+    <div class="hero-art"><InkScene /></div>
+    <p class="availability hero-availability"><span class="status-dot"></span>{c.available}</p>
+  </section>
+
+  <section id="work" class="section work-section wrap" aria-labelledby="work-title">
+    <h2 class="editorial-heading" id="work-title"><span class="section-number" aria-hidden="true">01</span>{c.workTitle}</h2>
+    <article class="featured-project project-linkloom" aria-labelledby="title-linkloom">
+      <div class="featured-copy">
+        <h3 id="title-linkloom">LinkLoom</h3>
+        <p class="featured-headline">{loom[lang].headline}</p>
+        <p class="featured-summary">{c.linkloomSummary}</p>
+        <div class="featured-links">
+          <a class="case-link" href={route(lang, 'work/linkloom/')}>{c.caseStudy}<Arrow /></a>
+          <a class="source-link" href={loom.github} target="_blank" rel="noopener noreferrer" aria-label={'LinkLoom — ' + c.source}>GitHub<Arrow diagonal /></a>
+        </div>
+      </div>
+      <figure class="project-figure">
+        <a class="project-image-link" href={route(lang, 'work/linkloom/')} aria-label={'LinkLoom — ' + c.caseStudy}>
+          <div class="browser-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="screenshot-crop"><img src={asset(loom.image)} alt={loom[lang].alt} width={loom.imageWidth} height={loom.imageHeight} loading="lazy" decoding="async" /></div>
+        </a>
+        <figcaption>{t('Synthetic data · historical lookup with source evidence', '合成数据 · 带来源证据的历史查询')}</figcaption>
+      </figure>
+      <dl class="technical-points">{c.highlights.map(([title, text]) => <div><dt>{title}</dt><dd>{text}</dd></div>)}</dl>
+    </article>
+
+    <article class="review-case" aria-labelledby="review-title">
+      <div>
+        <h3 id="review-title">{c.reviewTitle}</h3>
+        <p class="review-headline">{c.reviewHeadline}</p>
+        <p class="review-summary">{c.reviewSummary}</p>
+        <a class="case-link" href={route(lang, 'work/ai-review/')}>{c.caseStudy}<Arrow /></a>
+      </div>
+      <ReviewFlow lang={lang} />
+    </article>
+
+    <article class="supporting-project project-real-raise" aria-labelledby="title-real-raise">
+      <div>
+        <h3 id="title-real-raise">Real Raise</h3>
+        <p class="supporting-headline">{t('A bigger salary. But what actually stays?', '涨薪之后，真正留下多少？')}</p>
+        <p class="supporting-summary">{c.realSummary}</p>
+        <p class="technology-line">{t('React + TypeScript UI, delivered through a same-origin Cloudflare Worker.', 'React + TypeScript 界面，通过同源 Cloudflare Worker 交付。')}</p>
+        <div class="featured-links">
+          <a class="case-link" href={route(lang, 'work/real-raise/')}>{c.caseStudy}<Arrow /></a>
+          <a class="text-link" href={raise.demo!} target="_blank" rel="noopener noreferrer">{c.publicDemo}<Arrow diagonal /></a>
+        </div>
+      </div>
+      <figure class="project-figure">
+        <a class="project-image-link" href={route(lang, 'work/real-raise/')} aria-label={'Real Raise — ' + c.caseStudy}>
+          <div class="browser-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="screenshot-crop"><img src={asset(raise.image)} alt={raise[lang].alt} width="1213" height="989" loading="lazy" decoding="async" /></div>
+        </a>
+        <figcaption>{c.realCaption}</figcaption>
+        <ol class="raise-product-flow" aria-label={t('Product boundary', '产品边界')}>
+          <li>{t('Your inputs', '个人输入')}</li><li>{t('Local calculation', '本地计算')}</li><li>{t('Optional AI explanation', '可选 AI 解释')}</li>
+        </ol>
+      </figure>
+    </article>
+  </section>
+
+  <EngineeringJourney lang={lang} />
+
+  <section id="open-source" class="section wrap" aria-labelledby="oss-title">
+    <h2 class="editorial-heading" id="oss-title"><span class="section-number" aria-hidden="true">03</span>{c.ossTitle}</h2>
+    <OpenSource lang={lang} />
+  </section>
+
+  <section id="approach" class="approach-section" aria-labelledby="approach-title">
+    <div class="wrap section">
+      <h2 class="editorial-heading" id="approach-title"><span class="section-number" aria-hidden="true">04</span><span>{c.approachTitle}<br /><em>{c.approachItalic}</em></span></h2>
+      <div class="failure-case">
+        <div class="failure-copy">
+          <h3>{c.failureTitle}</h3>
+          <p>{c.failureBody}</p>
+          <p>{c.failureFix}</p>
+          <a class="case-link" href="https://github.com/yefuyou/linkloom/pull/7" target="_blank" rel="noopener noreferrer">{c.failureLink}<Arrow diagonal /></a>
+        </div>
+        <figure class="trace-illustration">
+          <ol class="trace-tree">{c.traceSteps.map((step, i) => <li class={i === 3 ? 'trace-active' : ''}><span class="trace-node" aria-hidden="true"></span><span class="trace-name">{step}</span></li>)}</ol>
+          <div class="trace-footer"><figcaption>{c.traceCaption}</figcaption><InkScene variant="inspect" /></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about-section about-v2 wrap section" aria-labelledby="about-title">
+    <div><h2 id="about-title">{c.aboutTitle}<br /><em>{c.aboutItalic}</em></h2></div>
+    <div class="about-copy"><p class="about-lead">{c.aboutText}</p><p>{c.aboutMethod}</p><p class="roles-copy">{c.rolesText}</p></div>
+  </section>
+
+  <section class="contact-section" aria-labelledby="contact-title">
+    <div class="wrap contact-inner">
+      <div><h2 id="contact-title">{c.contactTitle}</h2><div class="contact-links">
+        {profile.email ? <a class="button button-dark" href={'mailto:' + profile.email}>{c.contact}<Arrow diagonal /></a> : <span class="contact-pending">{c.contact} <small>{c.contactPending}</small></span>}
+        <a class="text-link" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub<Arrow diagonal /></a>
+        {profile.linkedin && <a class="text-link" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn<Arrow diagonal /></a>}
+        {resumeUrl && <a class="text-link" href={resumeUrl}>{t('Résumé', '简历')}<Arrow /></a>}
+      </div>{profile.email && <p class="public-email"><a href={'mailto:' + profile.email}>{profile.email}</a></p>}</div>
+      <InkScene variant="done" />
+    </div>
+  </section>
+</Layout>

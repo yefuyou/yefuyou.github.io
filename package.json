@@ -1,0 +1,32 @@
+{
+  "name": "yefuyou-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.16.0"
+  },
+  "scripts": {
+    "dev": "node scripts/tool.mjs dev",
+    "build": "node scripts/tool.mjs build",
+    "preview": "node scripts/tool.mjs preview",
+    "check": "node scripts/tool.mjs check",
+    "lint": "node scripts/tool.mjs lint",
+    "test": "node scripts/tool.mjs test"
+  },
+  "dependencies": {
+    "astro": "7.4.2",
+    "@fontsource-variable/manrope": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "typescript": "6.0.3",
+    "eslint": "10.13.0",
+    "eslint-plugin-astro": "3.2.1",
+    "typescript-eslint": "8.72.1",
+    "@eslint/js": "10.0.1",
+    "globals": "17.13.0",
+    "@axe-core/playwright": "4.14.0"
+  }
+}

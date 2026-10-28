@@ -1,0 +1,70 @@
+---
+interface Props { variant?: 'hero' | 'inspect' | 'done'; }
+const { variant = 'hero' } = Astro.props;
+---
+{variant === 'hero' ? (
+  <svg class="ink-scene hero-scene" viewBox="0 0 580 475" fill="none" aria-hidden="true">
+    <defs>
+      <pattern id="dot-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#c7c4b9"/></pattern>
+      <marker id="ink-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 6 3-6 3" stroke="#262722" stroke-width="1.4" fill="none"/></marker>
+    </defs>
+    <rect x="40" y="18" width="495" height="400" fill="url(#dot-grid)" opacity=".65"/>
+    <path d="M167 129C197 48 350 33 427 97c74 61 67 212-3 267-68 54-213 45-266-16-56-63-25-144 9-219Z" fill="#f4d65b" opacity=".65"/>
+    <g stroke="#262722" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M39 382c118 2 204-3 306 0l188-2"/>
+      <path d="M77 391h65m274-2h84m-315 9 61-1" opacity=".35"/>
+      <path d="M139 142c29-12 64-9 91 5" marker-end="url(#ink-arrow)"/>
+      <path d="M328 143c31 7 54 36 59 65" marker-end="url(#ink-arrow)"/>
+      <path d="M382 286c-36 35-91 29-127 7" marker-end="url(#ink-arrow)"/>
+      <path d="M179 250c-26-17-53-26-83-15" stroke-dasharray="4 6" marker-end="url(#ink-arrow)"/>
+      <path d="M425 242c36-3 54 8 75 30" stroke-dasharray="4 6"/>
+      <g transform="rotate(-8 91 128)"><path d="m47 102 89 3-2 55-89-2Z" fill="#f9f7ef"/><path d="m57 114 14-1m-13 11 49 2m-49 9 60 2" opacity=".45"/><text x="56" y="150" fill="#262722" stroke="none" font-family="monospace" font-size="10">CONTEXT</text><path d="m111 98 3-10 5 12"/></g>
+      <g transform="rotate(5 283 137)"><path d="m235 112 96-2 1 54-94 2Z" fill="#f9f7ef"/><path d="m249 126 7 7-7 7m20-16-6 20m14-18 7 7-7 7"/><text x="249" y="155" fill="#262722" stroke="none" font-family="monospace" font-size="9">TOOL CALL</text></g>
+      <g transform="rotate(-5 391 249)"><path d="m346 220 91 2-2 55-87 2Z" fill="#f9f7ef"/><path d="m358 237 8 8 13-17"/><text x="357" y="265" fill="#262722" stroke="none" font-family="monospace" font-size="10">VERIFIED</text></g>
+      <g transform="rotate(4 214 285)"><path d="m169 260 88 1 1 51-91-1Z" fill="#e6bfc2"/><path d="m183 277 11-1m-12 9 48 1"/><text x="180" y="302" fill="#262722" stroke="none" font-family="monospace" font-size="10">EVIDENCE</text></g>
+      <path d="M130 87c9-11 8-26 12-31m-28 31-1-19m41 25 14-10"/>
+      <path d="m423 104 9-6m-4 20 15 2"/>
+      <path d="m111 302 5 11 12 1-10 7 2 13-10-8-11 5 4-12-8-9 12 1Z" fill="#e6bfc2" stroke="none"/>
+      <path d="m466 181 3-13m-10 6 16 1"/>
+      <path d="m287 77 5-14m7 20 10-9"/>
+      <!-- The builder carries a piece of context up a ladder. -->
+      <path d="m148 373 32-138m-9 139 32-137m-47 109 23 1m-17-29 24 1m-17-29 23 2m-16-29 23 2"/>
+      <path d="M175 199c-2-21 1-46 18-50 18-5 34 12 36 32 1 15-3 31-16 35-17 7-34 1-38-17Z" fill="#262722"/>
+      <path d="m186 212-4 28 17 8m12-34 7 27-14 17m-26-72-25-12-12-15m83 27 20-17"/>
+      <path d="m177 241 8-1m17 20 8-2"/>
+      <ellipse cx="201" cy="178" rx="2.6" ry="3.8" fill="#f9f7ef" stroke="none"/><ellipse cx="215" cy="177" rx="2.6" ry="3.8" fill="#f9f7ef" stroke="none"/>
+      <!-- One worker is checking the result, rather than cheering at it. -->
+      <path d="M365 332c2-30 16-52 38-48 20 3 29 25 26 48-1 17-10 29-29 28-20 0-36-10-35-28Z" fill="#262722"/>
+      <path d="m383 358-7 21-13 2m45-24 10 21 15 2m-9-73 15-15 7-22m-79 51-20-4-7-17"/>
+      <ellipse cx="393" cy="309" rx="3" ry="4.2" fill="#f9f7ef" stroke="none"/><ellipse cx="408" cy="307" rx="3" ry="4.2" fill="#f9f7ef" stroke="none"/>
+      <circle cx="448" cy="255" r="16" fill="#f9f7ef" fill-opacity=".65"/><path d="m460 267 12 15m-30-27 5 5 9-12"/>
+      <!-- The little runner delivers a source record, feet firmly on the ground. -->
+      <path d="M74 345c-7-20-3-43 13-48 19-7 32 13 34 30 2 15-1 29-16 33-15 4-26-1-31-15Z" fill="#262722"/>
+      <path d="m85 357-3 19-14 4m34-22 11 20 12 3m-7-60 18-9 12-18m-74 37-16 9"/>
+      <ellipse cx="95" cy="317" rx="2.5" ry="3.5" fill="#f9f7ef" stroke="none"/><ellipse cx="107" cy="316" rx="2.5" ry="3.5" fill="#f9f7ef" stroke="none"/>
+      <path d="m137 279 22 1-1 29-24-3Z" fill="#f9f7ef"/><path d="m142 287 10 1m-11 7 8 1" opacity=".5"/>
+      <path d="m50 317-14-1m16 13-10 3"/>
+      <path d="m276 350 40 1 1 27-42-1Z" fill="#f9f7ef"/><path d="m284 359 9 1m-9 8 21 1"/><path d="m274 345 5-7 41 2-3 9"/>
+    </g>
+    <g fill="#595a51" font-family="monospace" font-size="11"><text x="53" y="53" transform="rotate(-5 53 53)">a work in progress.</text><text x="324" y="423" transform="rotate(-4 324 423)">trust, assembled carefully.</text></g>
+    <path d="M319 429c58-1 119-5 185-11" stroke="#8a8a77" stroke-width="1.2"/>
+  </svg>
+) : variant === 'inspect' ? (
+  <svg class="ink-scene inspect-scene" viewBox="0 0 260 180" fill="none" aria-hidden="true">
+    <circle cx="119" cy="102" r="48" fill="#f4d65b" />
+    <path d="M33 151h189" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M93 126c-17-27-9-62 15-66 23-3 36 26 34 49-1 20-29 34-49 17Z" fill="#262722"/>
+    <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m102 128-7 21-11 1m41-23 9 21 11 1m-6-65 21-12m-65 24-15-9"/><circle cx="177" cy="58" r="24"/><path d="m160 76-14 16m29-40 8 8m-17-1 9 8m-95-9-19-10m14 30-20-1"/></g>
+    <ellipse cx="116" cy="82" rx="3" ry="4" fill="#f7f5ed"/><ellipse cx="128" cy="81" rx="3" ry="4" fill="#f7f5ed"/>
+    <path d="m215 31 4 9 10 2-8 6 1 11-8-6-10 3 4-10-6-8 10 1Z" fill="#f4d65b"/>
+  </svg>
+) : (
+  <svg class="ink-scene done-scene" viewBox="0 0 230 190" fill="none" aria-hidden="true">
+    <path d="M20 161h190" stroke="#262722" stroke-width="2" stroke-linecap="round"/>
+    <path d="M117 100c-8-25-5-50 14-53 24-4 41 23 38 43-2 18-36 31-52 10Z" fill="#262722"/>
+    <g stroke="#262722" stroke-width="2.5" stroke-linecap="round"><path d="m124 104-12 25-27 5m68-29 6 31-21 2m-18-58-21 9-8-15m74-4 14-12 2-18m-102 91 40-1 17 31m-41-27-11 27m91-22h-31m26-1 8 34"/><path d="m53 83 19-1 1 17-20 1Zm20 3c12-4 12 11 0 8" fill="#f4d65b"/><path d="m57 75-1-8m9 8 1-10" stroke-width="1.4"/></g>
+    <ellipse cx="137" cy="66" rx="3" ry="4" fill="#f7f5ed"/><ellipse cx="150" cy="65" rx="3" ry="4" fill="#f7f5ed"/>
+    <path d="m32 40 5 11 12 1-9 8 2 12-11-6-10 4 4-11-7-9 11 1Z" fill="#e6bfc2"/>
+    <text x="40" y="185" font-size="11" font-family="monospace" fill="#626357">good work. tea time.</text>
+  </svg>
+)}

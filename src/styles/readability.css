@@ -1,0 +1,115 @@
+/* Small refinements to the existing editorial system. */
+.hero-position strong {
+  font-weight: 650;
+}
+.hero-position > span {
+  margin-inline: 4px;
+  color: var(--muted);
+}
+.hero-availability {
+  margin-top: 28px;
+}
+.featured-summary {
+  font-size: 15px;
+  line-height: 1.85;
+}
+.technical-points dt {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.technical-points dd {
+  max-width: 360px;
+}
+.review-summary,
+.supporting-summary {
+  font-size: 15px;
+  line-height: 1.85;
+}
+.technology-line {
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 410px;
+}
+.project-figure figcaption {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.failure-copy p,
+.about-v2 .about-copy > p:not(.about-lead) {
+  font-size: 15px;
+}
+.contribution-detail p {
+  font-size: 14px;
+}
+.case-contributions p,
+.validation-item p,
+.case-two-col > div > p:not(.eyebrow),
+.decision-list p {
+  font-size: 14px;
+  line-height: 1.85;
+}
+.case-image-linkloom img {
+  margin-top: -14%;
+}
+@media (max-width: 1100px) {
+  .hero-position {
+    font-size: 12px;
+  }
+  .featured-project .screenshot-crop {
+    height: auto;
+  }
+}
+@media (max-width: 800px) {
+  .hero-position {
+    font-size: 11px;
+  }
+  .featured-summary,
+  .review-summary,
+  .supporting-summary {
+    font-size: 14px;
+  }
+  .technical-points dt {
+    font-size: 14px;
+  }
+  .technical-points dd {
+    font-size: 13px;
+  }
+  .contribution-detail p {
+    font-size: 13px;
+  }
+  .project-figure figcaption {
+    font-size: 11px;
+  }
+}
+@media (max-width: 600px) {
+  .hero-position {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .hero.hero-v2 h1 {
+    font-size: 10.1vw;
+    letter-spacing: -1.9px;
+  }
+  .hero-availability {
+    margin-top: 20px;
+  }
+  .featured-project .screenshot-crop {
+    height: auto;
+  }
+  .technical-points dt {
+    font-size: 14px;
+  }
+  .technical-points dd {
+    font-size: 14px;
+  }
+  .failure-copy p,
+  .about-v2 .about-copy > p:not(.about-lead) {
+    font-size: 14px;
+  }
+  .case-contributions p,
+  .validation-item p,
+  .case-two-col > div > p:not(.eyebrow),
+  .decision-list p {
+    font-size: 14px;
+  }
+}

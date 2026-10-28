@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from './Arrow.astro';
+import ReviewFlow from './ReviewFlow.astro';
+import { route, localize, type Locale } from '../data/site';
+import { reviewCase } from '../data/review';
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = reviewCase[lang];
+const t = (en: string, zh: string) => localize(lang, en, zh);
+---
+<Layout lang={lang} title={c.title + ' · yefuyou'} description={c.summary} project="ai-review">
+  <article class="case-page review-page wrap">
+    <a class="back-link text-link" href={route(lang) + '#work'}><span aria-hidden="true">←</span>{t('Selected work', '代表作品')}</a>
+    <header class="case-header"><h1>{c.title}</h1><p class="case-headline">{c.headline}</p><p class="case-summary">{c.summary}</p></header>
+    <ReviewFlow lang={lang} />
+    <section class="case-section case-two-col" aria-labelledby="review-problem"><div><h2 id="review-problem">{t('The engineering problem.', '工程问题。')}</h2></div><div><p class="case-body-lead">{c.problem}</p><p>{c.response}</p></div></section>
+    <section class="case-section" aria-labelledby="review-method"><h2 id="review-method">{t('What makes the workflow useful.', '让流程真正有用。')}</h2><div class="case-contributions">{c.decisions.map(([title, text]) => <div><h3>{title}</h3><p>{text}</p></div>)}</div><p class="review-boundary">{c.boundary}</p></section>
+    <section class="case-section case-two-col" aria-labelledby="review-public"><div><h2 id="review-public">{c.publicWork}</h2></div><div><p>{c.publicText}</p><div class="featured-links"><a class="text-link" href="https://github.com/The-PR-Agent/pr-agent/pull/2589" target="_blank" rel="noopener noreferrer">PR-Agent #2589<Arrow diagonal /></a><a class="text-link" href="https://github.com/The-PR-Agent/pr-agent/pull/2722" target="_blank" rel="noopener noreferrer">PR-Agent #2722<Arrow diagonal /></a></div></div></section>
+    <a class="next-project" href={route(lang, 'work/real-raise/')}><strong>{c.next}</strong><Arrow /></a>
+  </article>
+</Layout>

@@ -1,0 +1,21 @@
+---
+import { journey } from '../data/journey';
+import type { Locale } from '../data/site';
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = journey[lang];
+---
+<section id="journey" class="section wrap" aria-labelledby="journey-title">
+  <h2 class="editorial-heading" id="journey-title"><span class="section-number" aria-hidden="true">02</span>{c.title}</h2>
+  <p class="journey-introduction">{c.introduction}</p>
+  <div class="journey-themes">{c.themes.map(([title,text]) => <div><h3>{title}</h3><p>{text}</p></div>)}</div>
+</section>
+<style>
+  .journey-introduction { font-size: 20px; line-height: 1.8; max-width: 850px; margin-top: -7px; }
+  .journey-themes { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 39px; margin-top: 38px; }
+  .journey-themes > div { border-top: 1px solid var(--line); padding-top: 22px; }
+  .journey-themes h3 { font-size: 18px; line-height: 1.5; letter-spacing: -.25px; max-width: 320px; }
+  .journey-themes p { font-size: 14px; line-height: 1.9; color: var(--muted); margin-top: 15px; }
+  @media(max-width:800px) { .journey-themes { grid-template-columns: 1fr; gap: 26px; } .journey-introduction { font-size: 18px; } .journey-themes h3 { max-width: none; } }
+  @media(max-width:480px) { .journey-introduction { font-size: 17px; } }
+</style>

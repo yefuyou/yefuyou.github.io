@@ -1,0 +1,158 @@
+---
+import { flowStory } from '../data/linkloom-flow';
+import { type Locale } from '../data/site';
+import FlowScene from './FlowScene.astro';
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = flowStory[lang];
+const scenes = ['sources', 'extraction', 'review', 'memory'] as const;
+---
+<figure class="loom-story" aria-describedby="mechanism-description">
+  <figcaption id="mechanism-description" class="sr-only">{c.description}</figcaption>
+  <ol class="story-stages">
+    {c.stages.map((stage, i) => <li class={'story-stage stage-' + scenes[i]}>
+      <FlowScene variant={scenes[i]} />
+      <div class="stage-caption"><h3>{stage.title}</h3><span class={'story-control control-' + (i === 1 ? 'model' : i === 2 ? 'human' : 'python')}>{stage.control}</span><p>{stage.note}</p></div>
+      {i < 3 && <svg class="story-arrow" viewBox="0 0 65 30" fill="none" aria-hidden="true"><path d="M3 19C19 8 38 25 57 12m-9-2 10 1-5 10" /></svg>}
+    </li>)}
+  </ol>
+
+  <div class="story-paths">
+    <section class="story-lookup" aria-labelledby="lookup-heading">
+      <p class="question-copy">{c.lookupQuestion}</p>
+      <p class="path-origin"><svg viewBox="0 0 32 25" fill="none" aria-hidden="true"><path d="M3 3c-2 13 9 16 23 12m-7-4 9 3-5 7" /></svg>{c.lookupRoute}</p>
+      <div class="lookup-work">
+        <FlowScene variant="lookup" />
+        <div class="path-caption"><h3 id="lookup-heading">{c.lookupTitle}</h3><span class="story-control control-python">{c.program}</span><p>{c.lookupNote}</p><strong class="no-model">{c.noModel}</strong></div>
+      </div>
+    </section>
+    <section class="story-investigation" aria-labelledby="investigation-heading">
+      <p class="question-copy">{c.agentQuestion}</p>
+      <p class="path-origin"><svg viewBox="0 0 32 25" fill="none" aria-hidden="true"><path d="M3 3c-2 13 9 16 23 12m-7-4 9 3-5 7" /></svg>{c.agentRoute}</p>
+      <div class="investigation-work">
+        <div class="model-work"><FlowScene variant="investigation" /><div class="path-caption"><h3 id="investigation-heading">{c.agentTitle}</h3><span class="story-control control-model">{c.model}</span><p>{c.agentNote}</p></div></div>
+        <svg class="check-arrow" viewBox="0 0 65 30" fill="none" aria-hidden="true"><path d="M3 19C19 8 38 25 57 12m-9-2 10 1-5 10" /></svg>
+        <div class="grounding-work"><FlowScene variant="grounding" /><div class="path-caption"><h4>{c.checkTitle}</h4><span class="story-control control-python">{c.program}</span><p>{c.checkNote}</p></div></div>
+      </div>
+      <aside class="safety-boundary" aria-labelledby="safety-heading">
+        <h4 id="safety-heading"><svg viewBox="0 0 22 24" width="17" height="19" fill="none" aria-hidden="true"><path d="m3 10 16-1 1 13-18 1ZM6 9V6c0-7 11-6 11 0v3m-5 6v3" /></svg>{c.safety.title}</h4>
+        <dl><div><dt>{c.safety.callsLabel}</dt><dd>{c.safety.calls}</dd></div><div><dt>{c.safety.sourcesLabel}</dt><dd>{c.safety.sources}</dd></div><div><dt>{c.safety.stateLabel}</dt><dd>{c.safety.state} <strong>{c.safety.limit}</strong></dd></div></dl>
+      </aside>
+    </section>
+  </div>
+
+  <svg class="story-convergence" viewBox="0 0 1000 46" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M192 4c0 27 168 10 308 19M755 4c0 27-145 7-255 19m0 0-1 17m-7-8 7 9 8-8" /></svg>
+  <div class="story-output">
+    <FlowScene variant="output" />
+    <div class="output-copy"><h3>{c.output.map((part,i) => <><span class={'output-part output-part-' + i}>{part}</span>{i < 2 && <span class="output-plus" aria-hidden="true"> + </span>}</>)}</h3></div>
+  </div>
+</figure>
+
+<style>
+  .loom-story { margin-top: 14px; }
+  .story-stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 38px; padding: 0; list-style: none; }
+  .story-stage { position: relative; min-width: 0; }
+  .story-stage :global(.mechanism-scene) { width: 100%; height: 164px; }
+  .stage-sources :global(.mechanism-scene), .stage-extraction :global(.mechanism-scene), .stage-memory :global(.mechanism-scene) { transform: scale(.84); transform-origin: center 75%; opacity: .74; }
+  .stage-review :global(.mechanism-scene) { transform: scale(1.06); transform-origin: center 70%; }
+  .stage-caption { max-width: 235px; padding-left: 7px; }
+  .stage-caption h3 { font-size: 19px; line-height: 1.35; letter-spacing: -.4px; }
+  .story-control { display: inline-block; position: relative; font-size: 11px; line-height: 1.6; margin-top: 8px; padding: 1px 5px 2px; color: #43463d; }
+  .control-model { background: #f5e5a0; transform: rotate(-1deg); }
+  .control-human { background: #ecd0d1; transform: rotate(1deg); }
+  .control-python { padding-left: 0; border-bottom: 1px solid #a8aa98; }
+  .stage-caption p, .path-caption p { font-size: 14px; line-height: 1.8; margin-top: 12px; color: var(--muted); }
+  .story-arrow { position: absolute; width: 48px; height: 26px; right: -44px; top: 73px; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .story-paths { display: grid; grid-template-columns: .82fr 1.4fr; gap: 62px; margin-top: 42px; padding-top: 30px; border-top: 1px solid var(--line); }
+  .question-copy { font-family: var(--serif); font-style: italic; font-size: 25px; line-height: 1.3; }
+  :global(html[lang="zh-CN"]) .question-copy { font-family: inherit; font-style: normal; font-size: 19px; letter-spacing: -.4px; }
+  .path-origin { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 1.7; color: #51544a; margin-top: 10px; }
+  .path-origin svg { width: 27px; height: 24px; flex: none; stroke: #8f927f; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .lookup-work { display: grid; grid-template-columns: 140px 1fr; gap: 18px; align-items: center; margin-top: 24px; }
+  .lookup-work :global(.mechanism-scene) { width: 155px; margin-left: -12px; }
+  .lookup-work :global(.mechanism-scene), .grounding-work :global(.mechanism-scene) { transform: scale(.86); opacity: .8; }
+  .path-caption h3, .path-caption h4 { font-size: 16px; line-height: 1.5; letter-spacing: -.25px; margin: 0; }
+  .no-model { display: inline-block; font-size: 13px; font-weight: 600; margin-top: 13px; border-bottom: 3px solid var(--yellow); line-height: 1.55; }
+  .investigation-work { display: grid; position: relative; grid-template-columns: 1fr 1fr; gap: 42px; margin-top: 3px; }
+  .model-work, .grounding-work { min-width: 0; }
+  .investigation-work :global(.mechanism-scene) { width: 165px; height: 111px; margin-left: -10px; }
+  .model-work :global(.mechanism-scene) { transform: scale(1.08); transform-origin: 40% 70%; }
+  .check-arrow { position: absolute; width: 43px; height: 25px; left: calc(50% - 24px); top: 51px; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .safety-boundary { margin-top: 24px; padding-top: 18px; border-top: 1px dashed #bdbdad; }
+  .safety-boundary h4 { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 14px; line-height: 1.6; font-weight: 650; }
+  .safety-boundary h4 svg { flex: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .safety-boundary dl { margin: 11px 0 0; }
+  .safety-boundary dl > div { display: grid; grid-template-columns: 104px 1fr; gap: 15px; padding-block: 6px; }
+  .safety-boundary dt { font-size: 12px; line-height: 1.8; font-weight: 600; }
+  .safety-boundary dd { margin: 0; font-size: 13px; line-height: 1.8; color: var(--muted); }
+  .safety-boundary dd strong { color: var(--ink); font-weight: 550; }
+  .story-convergence { width: 100%; height: 46px; margin-top: 25px; stroke: #9d9f8d; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .story-output { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 0 0 14px; }
+  .story-output :global(.mechanism-scene) { width: 162px; height: 116px; flex: none; transform: scale(1.09); }
+  .output-copy { padding-block: 13px; }
+  .output-copy h3 { font-size: 23px; line-height: 1.5; letter-spacing: -.55px; }
+  .output-part { display: inline-block; border-bottom: 1px solid #b1b39f; }
+  .output-part-0 { border-bottom: 5px solid var(--yellow); }
+  .output-part-2 { border-bottom-style: dashed; }
+  .output-plus { font-size: 16px; font-weight: 400; color: var(--muted); margin-inline: 7px; }
+  @media (max-width: 1100px) {
+    .story-stages { gap: 25px; }
+    .story-arrow { width: 37px; right: -32px; }
+    .stage-caption { padding-left: 0; }
+    .stage-caption h3 { font-size: 17px; }
+    .story-paths { gap: 35px; grid-template-columns: .9fr 1.2fr; }
+    .lookup-work { grid-template-columns: 1fr; gap: 5px; margin-top: 9px; }
+    .lookup-work :global(.mechanism-scene) { width: 150px; height: 105px; }
+    .investigation-work { gap: 25px; }
+    .check-arrow { width: 30px; left: calc(50% - 17px); }
+  }
+  @media (max-width: 800px) {
+    .story-stages { grid-template-columns: 1fr; gap: 24px; }
+    .story-stage { display: grid; grid-template-columns: 175px 1fr; align-items: center; gap: 22px; }
+    .story-stage :global(.mechanism-scene) { width: 175px; height: 145px; }
+    .stage-caption { max-width: 380px; }
+    .stage-caption h3 { font-size: 21px; }
+    .stage-caption p { font-size: 14px; }
+    .story-arrow { width: 35px; height: 25px; top: auto; right: auto; bottom: -26px; left: 71px; transform: rotate(90deg); }
+    .story-paths { grid-template-columns: 1fr; gap: 35px; margin-top: 33px; }
+    .lookup-work { grid-template-columns: 175px 1fr; gap: 22px; }
+    .lookup-work :global(.mechanism-scene) { width: 175px; height: 125px; margin-left: 0; }
+    .question-copy { font-size: 27px; }
+    .story-investigation { border-top: 1px solid var(--line); padding-top: 30px; }
+    .investigation-work { gap: 50px; }
+    .investigation-work :global(.mechanism-scene) { width: 180px; height: 130px; }
+    .path-caption h3, .path-caption h4 { font-size: 18px; }
+    .check-arrow { width: 42px; left: calc(50% - 23px); top: 57px; }
+    .path-caption p { font-size: 14px; }
+    .story-convergence { height: 34px; }
+    .story-output { gap: 15px; }
+    .story-output :global(.mechanism-scene) { width: 130px; }
+    .output-copy h3 { font-size: 21px; }
+    .output-plus { margin-inline: 4px; }
+  }
+  @media (max-width: 480px) {
+    .story-stage { grid-template-columns: 128px 1fr; gap: 15px; }
+    .story-stage :global(.mechanism-scene) { width: 140px; height: 132px; margin-left: -9px; }
+    .stage-caption h3 { font-size: 18px; }
+    .stage-caption p { font-size: 14px; margin-top: 10px; }
+    .story-arrow { left: 50px; }
+    .story-control { font-size: 11px; margin-top: 6px; }
+    .question-copy { font-size: 24px; }
+    .lookup-work { grid-template-columns: 128px 1fr; gap: 15px; margin-top: 22px; }
+    .lookup-work :global(.mechanism-scene) { width: 140px; height: 125px; margin-left: -9px; }
+    .path-caption h3, .path-caption h4 { font-size: 17px; }
+    .path-caption p { font-size: 14px; }
+    .investigation-work { grid-template-columns: 1fr; gap: 29px; margin-top: 22px; }
+    .model-work, .grounding-work { display: grid; grid-template-columns: 128px 1fr; gap: 15px; align-items: center; }
+    .investigation-work :global(.mechanism-scene) { width: 140px; height: 125px; margin-left: -9px; }
+    .check-arrow { left: 50px; top: calc(50% - 12px); width: 35px; transform: rotate(90deg); }
+    .safety-boundary dl > div { grid-template-columns: 1fr; gap: 3px; padding-block: 7px; }
+    .safety-boundary dt { font-size: 13px; }
+    .story-convergence { display: none; }
+    .story-output { flex-direction: column; align-items: flex-start; gap: 0; margin-top: 30px; border-top: 1px solid var(--line); }
+    .story-output :global(.mechanism-scene) { align-self: center; width: 154px; height: 110px; }
+    .output-copy { padding-top: 0; }
+    .output-copy h3 { font-size: 21px; }
+    .output-plus { margin-inline: 3px; font-size: 14px; }
+  }
+</style>

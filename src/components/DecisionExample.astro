@@ -1,0 +1,32 @@
+---
+import { linkloomCase } from '../data/linkloom';
+import { sourceUrl, linkloomRef } from '../data/projects';
+import { type Locale } from '../data/site';
+import Arrow from './Arrow.astro';
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = linkloomCase[lang];
+---
+<figure class="decision-example" aria-labelledby="example-title">
+  <div class="example-heading"><h3 id="example-title">{c.exampleTitle}</h3><a class="text-link" href={sourceUrl('linkloom', linkloomRef, 'tests/fixtures/v1_release_acceptance_meeting.txt')} target="_blank" rel="noopener noreferrer">{c.fixtureLink}<Arrow diagonal /></a></div>
+  <ol class="meeting-trail">{c.timelineEvents.map(([date,text]) => <li><time>{date}</time><span>{text}</span></li>)}</ol>
+  <div class="decision-explorer" data-decision-explorer>
+    <fieldset><legend class="sr-only">{c.dateLegend}</legend>{c.moments.map((moment,i) => <label><input type="radio" name="decision-moment" value={i} checked={i === 0} aria-controls={'moment-' + i} /><span>{moment.label}</span></label>)}</fieldset>
+    <div aria-live="polite" aria-atomic="true">{c.moments.map((moment,i) => <div class={'decision-moment moment-' + i} id={'moment-' + i} hidden={i !== 0}>
+      <div class="decision-value"><p class="decision-state">{moment.state}</p><strong>{moment.value}</strong><p>{moment.detail}</p></div>
+      <div class="decision-evidence"><p>{moment.source}</p>{i < 2 ? <blockquote lang="en">{moment.quote}</blockquote> : <p class="revalidation-rule">{moment.quote}</p>}</div>
+    </div>)}</div>
+  </div>
+  <figcaption>{c.exampleNote}</figcaption>
+</figure>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-decision-explorer]').forEach(explorer => {
+    explorer.addEventListener('change', event => {
+      const input = event.target;
+      if (!(input instanceof HTMLInputElement) || input.type !== 'radio') return;
+      explorer.querySelectorAll<HTMLElement>('.decision-moment').forEach((panel, i) => {
+        panel.hidden = String(i) !== input.value;
+      });
+    });
+  });
+</script>

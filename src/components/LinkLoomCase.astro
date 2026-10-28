@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from './Arrow.astro';
+import DecisionExample from './DecisionExample.astro';
+import LinkLoomFlow from './LinkLoomFlow.astro';
+import { linkloomCase } from '../data/linkloom';
+import { projects, sourceUrl, linkloomRef } from '../data/projects';
+import { asset, route, publicName, localize, type Locale } from '../data/site';
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = linkloomCase[lang];
+const project = projects[0];
+const t = (en: string, zh: string) => localize(lang, en, zh);
+const evidence = (path: string) => sourceUrl('linkloom', linkloomRef, path);
+---
+<Layout lang={lang} title={'LinkLoom — ' + t('Agent engineering case study', 'Agent 工程案例') + ' · ' + publicName} description={c.summary} project="linkloom">
+  <article class="case-page loom-case wrap">
+    <a class="back-link text-link" href={route(lang) + '#work'}><span aria-hidden="true">←</span>{t('Selected work', '代表作品')}</a>
+    <header class="case-header loom-header">
+      <h1>LinkLoom<span class="case-dot">.</span></h1>
+      <p class="case-headline">{c.headline}</p>
+      <p class="case-summary">{c.summary}</p>
+      <div class="case-actions"><a class="button button-yellow" href="#demo">{t('Watch product walkthrough', '观看产品演示')}<Arrow /></a><a class="text-link" href={project.github} target="_blank" rel="noopener noreferrer">{t('View source code', '查看源码')}<Arrow diagonal /></a></div>
+      <nav class="case-contents" aria-label={t('Case study sections', '案例章节')}><a href="#demo">{t('Product walkthrough', '产品演示')}</a><a href="#how-it-works">{c.howTitle}</a><a href="#engineering">{t('Engineering decisions', '工程判断')}</a></nav>
+    </header>
+    <ul class="loom-capabilities">{c.capabilities.map(([title,text]) => <li><strong>{title}</strong><p>{text}</p></li>)}</ul>
+    <section id="demo" class="loom-section product-walkthrough" aria-labelledby="demo-title">
+      <div class="loom-section-intro"><h2 id="demo-title">{c.demoTitle}</h2><p>{c.demoNote}</p></div>
+      <figure class="loom-demo"><video controls playsinline muted preload="none" poster={asset(project.image)} aria-label={t('LinkLoom product walkthrough', 'LinkLoom 产品演示')} width="1280" height="720"><source src={asset('assets/linkloom-walkthrough.mp4')} type="video/mp4" /><a href={asset('assets/linkloom-walkthrough.mp4')}>{t('Open the walkthrough video', '打开演示视频')}</a></video><figcaption><span>{c.demoCaption}</span><a class="text-link" href={project.video!} target="_blank" rel="noopener noreferrer">{t('Watch on GitHub', '在 GitHub 观看')}<Arrow diagonal /></a></figcaption></figure>
+      <details class="product-history"><summary>{t('Explore the product screens', '展开查看产品画面')}</summary><div class="product-screen-grid"><figure class="loom-product-capture"><a href={asset(project.image)} target="_blank" rel="noopener noreferrer" aria-label={t('Open full product capture', '查看完整产品截图')}><img src={asset(project.image)} width={project.imageWidth} height={project.imageHeight} alt={project[lang].alt} loading="lazy" /></a><figcaption>{c.historicalCaption}</figcaption></figure><figure class="revalidation-capture"><a href={asset(project.secondaryImage)} target="_blank" rel="noopener noreferrer" aria-label={t('Open revalidation product capture', '查看完整重新审查截图')}><img src={asset(project.secondaryImage)} alt={t('Earlier Birchline and replacement Wrenwell decisions with their source passages.', '早期 Birchline 与替代 Wrenwell 决策及各自原文证据。')} width="1440" height="1485" loading="lazy" /></a><figcaption>{c.revalidationCaption}</figcaption></figure></div></details>
+    </section>
+    <section class="loom-section problem-section" aria-labelledby="problem-title"><div class="loom-section-intro"><h2 id="problem-title">{c.problemTitle}</h2><div><p class="loom-lead">{c.problem}</p><p>{c.response}</p></div></div><DecisionExample lang={lang} /></section>
+    <section id="how-it-works" class="loom-section" aria-labelledby="how-title"><h2 id="how-title">{c.howTitle}</h2><LinkLoomFlow lang={lang} /></section>
+    <section id="engineering" class="loom-section" aria-labelledby="deep-title"><h2 id="deep-title">{c.deepTitle}</h2><div class="engineering-decisions">{c.deepDives.map((dive,i) => <section class="engineering-decision" aria-labelledby={'decision-' + i}><div class="engineering-heading"><span aria-hidden="true">0{i + 1}</span><h3 id={'decision-' + i}>{dive.title}</h3></div><div class="engineering-body"><p class="decision-question">{dive.question}</p><p class="decision-implementation">{dive.implementation}</p>{'incomplete' in dive && <p class="decision-implementation">{dive.incomplete}</p>}<p class="engineering-judgment">{dive.judgment}</p><div class="engineering-evidence">{dive.links.map(([label,path]) => <a class="text-link" href={evidence(path)} target="_blank" rel="noopener noreferrer">{label}<Arrow diagonal /></a>)}</div></div></section>)}</div></section>
+    <section class="loom-section case-two-col evidence-section" aria-labelledby="evidence-title"><div><h2 id="evidence-title">{c.docsTitle}</h2></div><ul class="evidence-list">{c.documents.map(([label,path]) => <li><a href={evidence(path)} target="_blank" rel="noopener noreferrer"><span>{label}</span><Arrow diagonal /></a></li>)}</ul></section>
+    <a class="next-project" href={route(lang,'work/ai-review/')}><strong>{c.next}</strong><Arrow /></a>
+  </article>
+</Layout>
+<style>
+  .loom-header .case-headline { white-space: pre-line; }
+  .loom-capabilities { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 38px; padding: 0; list-style: none; margin: 40px 0 54px; }
+  .loom-capabilities li { border-top: 1px solid var(--line); padding-top: 18px; }
+  .loom-capabilities strong { font-size: 16px; line-height: 1.6; font-weight: 650; }
+  .loom-capabilities p { font-size: 14px; line-height: 1.85; color: var(--muted); margin-top: 10px; max-width: 370px; }
+  .product-walkthrough { padding-top: 40px; }
+  .loom-demo video { background: var(--sage); }
+  .loom-demo figcaption { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; flex-wrap: wrap; }
+  .loom-demo figcaption a { font-size: 12px; }
+  .product-screen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; padding-block: 16px; }
+  .product-screen-grid figure { padding: 15px; margin: 0; align-self: start; }
+  .product-screen-grid .loom-product-capture { background: var(--sage); }
+  .product-screen-grid :global(img) { width: 100%; }
+  .decision-question { font-size: 21px; line-height: 1.6; letter-spacing: -.35px; max-width: 620px; }
+  .decision-implementation { font-size: 15px; line-height: 1.9; color: var(--muted); margin-top: 18px; }
+  .engineering-judgment { font-size: 15px; line-height: 1.8; font-weight: 600; margin-top: 20px; }
+  .engineering-evidence { margin-top: 22px; gap: 14px 26px; }
+  @media (max-width:800px) { .loom-capabilities { gap: 24px; } .loom-capabilities strong { font-size: 15px; } }
+  @media (max-width:600px) {
+    .loom-capabilities { grid-template-columns: 1fr; gap: 20px; margin-block: 32px 35px; }
+    .loom-capabilities p { margin-top: 6px; }
+    .product-walkthrough { padding-top: 30px; }
+    .product-screen-grid { grid-template-columns: 1fr; }
+    .decision-question { font-size: 20px; }
+    .decision-implementation, .engineering-judgment { font-size: 14px; }
+  }
+</style>

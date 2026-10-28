@@ -1,0 +1,8 @@
+---
+import ProjectPage from '../../components/ProjectPage.astro';
+import LinkLoomCase from '../../components/LinkLoomCase.astro';
+import { projects } from '../../data/projects';
+export function getStaticPaths() { return projects.map(project => ({ params: { project: project.slug }, props: { project } })); }
+const { project } = Astro.props;
+---
+{project.slug === 'linkloom' ? <LinkLoomCase lang="en" /> : <ProjectPage lang="en" project={project} />}

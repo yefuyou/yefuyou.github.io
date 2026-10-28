@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from './Arrow.astro';
+import { asset, route, localize, type Locale } from '../data/site';
+import { projects, sourceUrl, validationByProject, type Project } from '../data/projects';
+interface Props { lang: Locale; project: Extract<Project, { slug: 'real-raise' }>; }
+const { lang, project } = Astro.props;
+const p = project[lang];
+const t = (en: string, zh: string) => localize(lang, en, zh);
+const next = projects[0];
+const limits = t('The calculator and replay work without live AI interpretation. Personalized reports require platform login and quota. The repository records legacy backend configuration awaiting migration.', '计算与回放不依赖实时 AI 解释。个性化报告需要平台登录与额度。仓库仍记录了待迁移的历史后端配置。');
+---
+<Layout lang={lang} title={project.name + ' — ' + t('Engineering case study', '工程案例') + ' · yefuyou'} description={p.summary} project={project.slug}>
+  <article class="case-page wrap">
+    <a class="back-link text-link" href={route(lang) + '#work'}><span aria-hidden="true">←</span>{t('Selected work', '代表作品')}</a>
+    <header class="case-header">
+      <h1>{project.name}<span class="case-dot">.</span></h1>
+      <p class="case-headline">{p.headline}</p>
+      <p class="case-summary">{p.summary}</p>
+      <div class="case-actions">
+        <a class="button button-dark" href={project.github} target="_blank" rel="noopener noreferrer">GitHub<Arrow diagonal /></a>
+        {project.demo && <a class="button button-outline" href={project.demo} target="_blank" rel="noopener noreferrer">{t('Open public demo', '打开公开演示')}<Arrow diagonal /></a>}
+        {project.video && <a class="button button-outline" href={project.video} target="_blank" rel="noopener noreferrer">{t('Watch 80-second walkthrough', '查看 80 秒演示')}<Arrow diagonal /></a>}
+      </div>
+      <p class="case-technology">{project.stack.join(' · ')}</p>
+    </header>
+    <figure class={'case-image case-image-' + project.slug}>
+      <a href={asset(project.image)} target="_blank" rel="noopener noreferrer" aria-label={t('Open full product capture', '查看完整产品截图')}><img src={asset(project.image)} width={project.imageWidth} height={project.imageHeight} alt={p.alt} fetchpriority="high" /></a>
+      <figcaption>{p.caption}</figcaption>
+    </figure>
+    <section class="case-section case-two-col" aria-labelledby="problem-title"><div><h2 id="problem-title">{t('The problem.', '问题。')}</h2></div><div><p class="case-body-lead">{p.problem}</p><p>{p.solution}</p></div></section>
+    <section class="case-section architecture-section" aria-labelledby="architecture-title">
+      <h2 id="architecture-title">{t('Architecture.', '架构。')}</h2>
+      <ol class="architecture-chain">{p.architecture.map(step => <li>{step}</li>)}</ol>
+      <p class="architecture-note">{t('Simplified reading path. Full branches are in the linked architecture documentation.', '这里是简化阅读路径，完整分支见下方架构文档。')}</p>
+    </section>
+    <section class="case-section" aria-labelledby="contribution-title">
+      <h2 id="contribution-title">{t('Engineering challenges.', '工程挑战。')}</h2>
+      <div class="case-contributions">{p.contributions.map(([title, text]) => <div><h3>{title}</h3><p>{text}</p></div>)}</div>
+      <details class="case-decisions"><summary>{t('Design decisions', '设计取舍')}</summary><div class="decision-list">{p.decisions.map(([title, text]) => <div><h3>{title}</h3><p>{text}</p></div>)}</div></details>
+    </section>
+    <section class="case-section case-validation" aria-labelledby="validation-title">
+      <div><h2 id="validation-title">{t('Validation.', '验证。')}</h2></div>
+      <div>{validationByProject[project.slug][lang].map(item => <div class="validation-item"><h3>{item.title}</h3><p>{item.text}</p><a class="text-link" href={sourceUrl(project.slug, project.ref, item.path)} target="_blank" rel="noopener noreferrer">{t('Read the evidence', '查看证据')}<Arrow diagonal /></a></div>)}</div>
+    </section>
+    <section class="case-section case-two-col" aria-labelledby="limits-title"><div><h2 id="limits-title">{t('Current limitations.', '当前限制。')}</h2></div><div><p>{limits}</p></div></section>
+    {project.secondaryImage && <figure class="secondary-capture"><img src={asset(project.secondaryImage)} alt={t('LinkLoom revalidation example showing the earlier Birchline and replacement Wrenwell decisions with their original source passages.', 'LinkLoom 重新审查示例：早期 Birchline 与替代 Wrenwell 决策及各自的原文。')} loading="lazy" width="1440" height="1485" /><figcaption>{t('Revalidation demo: earlier and replacement decisions with original passages. Separate synthetic fixture.', '重新审查演示：早期与替代决策及原文。与上图使用不同的合成示例。')}</figcaption></figure>}
+    <section class="case-section case-two-col evidence-section" aria-labelledby="evidence-title">
+      <div><h2 id="evidence-title">{t('Source & documentation.', '源码与文档。')}</h2><code class="commit-id">{project.ref.slice(0, 12)}</code></div>
+      <ul class="evidence-list">{p.evidence.map(([title, path]) => <li><a href={sourceUrl(project.slug, project.ref, path)} target="_blank" rel="noopener noreferrer"><span>{title}<small>{path}</small></span><Arrow diagonal /></a></li>)}</ul>
+    </section>
+    <a class="next-project" href={route(lang, 'work/' + next.slug + '/')}><strong>{next.name}</strong><Arrow /></a>
+  </article>
+</Layout>

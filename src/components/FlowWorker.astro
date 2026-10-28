@@ -1,0 +1,29 @@
+---
+interface Props {
+  x: number;
+  y: number;
+  pose: 'carry' | 'extract' | 'stamp' | 'file' | 'lookup' | 'scout' | 'verify' | 'assemble';
+  tilt?: number;
+}
+const { x, y, pose, tilt = 0 } = Astro.props;
+const arms = {
+  carry: 'M7 30-7 21l-9-13M44 31l23-9 13-18',
+  extract: 'M7 30-17 18l-21 2M44 30l20-27 15 3',
+  stamp: 'M7 30-13 42l-13 2M44 30l16-16 12 2',
+  file: 'M7 30-7 40l-15 3M44 30l23-18 17-19',
+  lookup: 'M7 30-8 17l-12-5M44 30l20-19 14-20',
+  scout: 'M7 30-11 18l-7 1M44 30l21-19 12 3',
+  verify: 'M7 30-13 22l-16-2M44 30l19-16 13 2',
+  assemble: 'M7 30-8 22l-10-2M44 30l24 7 18-14',
+}[pose];
+const legs = pose === 'carry' || pose === 'scout'
+  ? 'M15 57 9 76-3 80M35 57l16 17 13 1'
+  : 'M15 57 10 77-1 79M35 57l6 20 12 1';
+---
+<g transform={`translate(${x} ${y}) rotate(${tilt} 24 35)`}>
+  <path d={arms} />
+  <path d={legs} />
+  <path d="M6 38C0 22 5 3 20 1c17-2 27 15 26 34-1 16-9 25-23 24C12 57 7 51 6 38Z" fill="#262722" />
+  <ellipse cx="24" cy="20" rx="2.5" ry="3.5" fill="#f7f5ed" stroke="none" />
+  <ellipse cx="36" cy="19" rx="2.4" ry="3.4" fill="#f7f5ed" stroke="none" />
+</g>

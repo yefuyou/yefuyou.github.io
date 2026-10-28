@@ -1,0 +1,105 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '../styles/global.css';
+import '../styles/refinements.css';
+import '../styles/readability.css';
+import '../styles/case-depth.css';
+import { asset, copy, profile, publicName, route, type Locale } from '../data/site';
+import Arrow from '../components/Arrow.astro';
+interface Props { lang: Locale; title?: string; description?: string; project?: string; }
+const { lang, title = publicName + ' — Agent Engineering / AI FDE', description = lang === 'en' ? 'Software engineering focused on agent runtimes, evaluation, and developer tooling. Explore LinkLoom, review workflows, and public contributions.' : '专注 Agent 运行时、评测与开发者工具的软件工程实践。查看 LinkLoom、审查工作流与公开贡献。', project = '' } = Astro.props;
+const c = copy[lang];
+const pagePath = project ? `work/${project}/` : '';
+const canonical = Astro.site ? new URL(route(lang, pagePath), Astro.site).href : undefined;
+const imageUrl = Astro.site ? new URL(asset('og-image.png'), Astro.site).href : asset('og-image.png');
+const navIds = ['work', 'journey', 'open-source', 'approach', 'about'];
+---
+<!doctype html>
+<html lang={lang === 'en' ? 'en' : 'zh-CN'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5ed" />
+    <meta name="description" content={description} />
+    <meta name="author" content={publicName} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href={asset('favicon.svg')} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {Astro.site && <>
+      <link rel="alternate" hreflang="en" href={new URL(route('en', pagePath), Astro.site).href} />
+      <link rel="alternate" hreflang="zh-CN" href={new URL(route('zh', pagePath), Astro.site).href} />
+      <link rel="alternate" hreflang="x-default" href={new URL(route('en', pagePath), Astro.site).href} />
+    </>}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={publicName + ' · Software engineer focused on agents. Inspectable, testable workflows.'} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'zh_CN'} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{c.skip}</a>
+    <header class="site-header wrap">
+      <a class="brand" href={route(lang)} aria-label={publicName + ' — home'}>
+        <svg class="brand-mark" width="33" height="35" viewBox="0 0 33 35" aria-hidden="true"><path d="M3 27C-2 11 5 1 16 2c12 0 18 12 14 25-3 9-23 8-27 0Z" fill="currentColor"/><ellipse cx="13" cy="15" rx="2" ry="3" fill="#f7f5ed"/><ellipse cx="23" cy="14" rx="2" ry="3" fill="#f7f5ed"/></svg>
+        <span>{publicName}</span>
+      </a>
+      <nav class="desktop-nav" aria-label={lang === 'en' ? 'Main navigation' : '主导航'}>
+        {c.nav.map((name, i) => <a href={`${route(lang)}#${navIds[i]}`}>{name}</a>)}
+      </nav>
+      <div class="header-actions">
+        <div class="language-switch" aria-label={lang === 'en' ? 'Language' : '语言'}>
+          <a lang="en" href={route('en', pagePath)} aria-current={lang === 'en' ? 'page' : undefined}>EN</a>
+          <span aria-hidden="true">/</span>
+          <a lang="zh-CN" href={route('zh', pagePath)} aria-current={lang === 'zh' ? 'page' : undefined}>中文</a>
+        </div>
+        <a class="header-github" href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)"><Arrow diagonal /></a>
+        <button class="menu-toggle" type="button" aria-label={c.menu} aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
+      </div>
+      <nav id="mobile-nav" class="mobile-nav" aria-label={lang === 'en' ? 'Mobile navigation' : '移动导航'} hidden>
+        {c.nav.map((name, i) => <a href={`${route(lang)}#${navIds[i]}`}>{name}<Arrow /></a>)}
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap">
+      <a href={route(lang)} class="footer-name">{publicName}<span class="tiny-star" aria-hidden="true">✳</span></a>
+      {profile.email && <a class="footer-email" href={'mailto:' + profile.email}>{c.contact}<Arrow diagonal /></a>}
+      <a href="#top">{c.backTop}<span aria-hidden="true">↑</span></a>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const menu = document.querySelector<HTMLElement>('#mobile-nav');
+      function closeMenu() {
+        if (!toggle || !menu) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.hidden = true;
+      }
+      toggle?.addEventListener('click', () => {
+        if (!menu) return;
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        menu.hidden = open;
+      });
+      menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+          closeMenu(); toggle.focus();
+        }
+      });
+      matchMedia('(min-width: 801px)').addEventListener('change', closeMenu);
+      // Keep the reading position when changing language on a section anchor.
+      document.querySelectorAll<HTMLAnchorElement>('.language-switch a').forEach(a => {
+        a.addEventListener('click', () => { if (location.hash) a.hash = location.hash; });
+      });
+    </script>
+  </body>
+</html>

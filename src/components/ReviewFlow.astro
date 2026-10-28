@@ -1,0 +1,10 @@
+---
+import { copy, type Locale } from '../data/site';
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const c = copy[lang];
+---
+<figure class="review-flow">
+  <ol>{c.reviewSteps.map((step, i) => <li><strong>{step}</strong><span>{c.reviewNotes[i]}</span></li>)}</ol>
+  <figcaption>{c.reviewCaption}</figcaption>
+</figure>
