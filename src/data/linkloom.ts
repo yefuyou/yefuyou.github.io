@@ -44,25 +44,25 @@ export const linkloomCase = {
     ],
     "howTitle": "How it works.",
     "next": "AI-assisted Code Review",
-    "headline": "Decisions change.\nYour team's answers should keep up.",
-    "summary": "LinkLoom helps teams track decisions across evolving meeting notes. It connects the current answer to its original evidence, effective date, and review history.",
+    "headline": "Decisions and action items keep changing.\nYour team's answers should keep up.",
+    "summary": "LinkLoom extracts topics, decisions and action items from meeting notes and tracks how they change across meetings. Each conclusion links to its original evidence and takes effect after human confirmation.",
     "capabilities": [
       [
-        "Follow changing decisions",
-        "Keep current decisions and their history connected across meetings."
+        "Follow the same work",
+        "Connect decisions and action items around the same topic across meetings, and see what changed."
       ],
       [
-        "Trace every answer to its source",
-        "Open the original passage behind an answer, with its date and supporting evidence."
+        "Every conclusion has a source",
+        "Open the original meeting note, date and passage to check where a conclusion came from."
       ],
       [
-        "Investigate with a controlled agent",
-        "Explore source relationships and task changes in a bounded, read-only investigation."
+        "Confirm before it takes effect",
+        "Extracted items remain candidates until someone checks their evidence and confirms them as active records."
       ]
     ],
-    "problemTitle": "One decision, across many meetings.",
+    "problemTitle": "The same work keeps changing across meetings.",
     "problem": "One meeting chooses Birchline. A later one replaces it with Wrenwell. Another note proposes Kestrel Ledger. The useful answer depends on which decision was approved, when it took effect, and what the source actually says.",
-    "response": "LinkLoom keeps candidates, approvals and effective dates connected. You can follow the current decision back through its history, inspect the original passage, and review the decision again when its evidence changes.",
+    "response": "LinkLoom connects topics, decisions and action items to their original evidence, linking the same work across meetings. Conclusions take effect after human confirmation, and later changes stay connected to what came before.",
     "exampleNote": "An interactive reading of the example decision trail.",
     "fixtureLink": "Read the example notes",
     "deepTitle": "Three engineering decisions.",
@@ -179,25 +179,25 @@ export const linkloomCase = {
     ],
     "howTitle": "系统如何工作。",
     "next": "AI 辅助代码审查",
-    "headline": "决策在变，\n团队的答案也要跟得上。",
-    "summary": "LinkLoom 帮助团队沿着不断更新的会议记录追踪决策，把当前答案与原始证据、生效日期和审查历史连接起来。",
+    "headline": "会议里的决定和待办一直在变，\n团队的答案也要跟得上。",
+    "summary": "LinkLoom 从会议记录里提取议题、决定和待办，帮助团队跨会议追踪同一件事的变化。每条结论都附原文证据，人工确认后才生效。",
     "capabilities": [
       [
-        "跟随决策变化",
-        "跨会议保留决策的演变，清楚区分当前决定与历史版本。"
+        "跟进同一件事",
+        "跨会议关联同一议题下的决定与待办，看清什么发生了变化。"
       ],
       [
-        "从答案追溯到原文",
-        "查看支持答案的原始记录、日期与证据片段。"
+        "每条结论，都有原文",
+        "打开对应的会议记录、日期与证据片段，核对结论从何而来。"
       ],
       [
-        "通过受控 Agent 调查",
-        "围绕复杂的来源关系与任务变化，进行有边界、只读的调查。"
+        "人工确认，再生效",
+        "抽取结果先作为候选保留，核对原文并确认后，才成为有效记录。"
       ]
     ],
-    "problemTitle": "同一项决策，散落在多次会议里。",
+    "problemTitle": "同一件事，在多次会议里不断变化。",
     "problem": "一次会议选择 Birchline，后一次改用 Wrenwell，另一份记录提出 Kestrel Ledger。真正有用的答案，要结合哪项决策获批、何时生效，以及原文究竟说了什么。",
-    "response": "LinkLoom 将候选、批准与生效日期连接起来。你可以沿着当前决定回看历史、检查原文，并在证据变化后重新审查决策。",
+    "response": "LinkLoom 将议题、决定和待办与原文证据关联，跨会议连接同一件事的记录。结论经人工确认后生效，后续变化也保留来龙去脉。",
     "exampleNote": "交互式示例：沿日期查看同一条决策记录。",
     "fixtureLink": "查看示例记录",
     "deepTitle": "三个重要的工程判断。",

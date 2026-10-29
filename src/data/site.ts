@@ -33,19 +33,19 @@ export const copy = {
     "workTitle": "Selected work.",
     "caseStudy": "Read case study",
     "source": "Source code",
-    "linkloomSummary": "Track decisions across evolving meeting notes, with the current answer connected to its original evidence, effective date and review history.",
+    "linkloomSummary": "Extract topics, decisions and action items from meeting notes. Track changes across meetings, with source evidence for each conclusion and human confirmation before it takes effect.",
     "highlights": [
       [
-        "Follow changing decisions.",
-        "Keep current decisions and historical versions connected across meetings."
+        "Follow the same work.",
+        "Connect related topics, decisions and action items across meetings as they change."
       ],
       [
-        "Trace every answer to its source.",
-        "Open the original record, date and passage supporting an answer."
+        "Every conclusion has a source.",
+        "Open the meeting note, date and passage behind each conclusion."
       ],
       [
-        "Investigate with a controlled agent.",
-        "Explore source relationships and task changes through bounded, read-only investigation."
+        "Confirm before it takes effect.",
+        "Review extracted items against their sources before confirming them as active records."
       ]
     ],
     "reviewTitle": "AI-assisted Code Review",
@@ -111,19 +111,19 @@ export const copy = {
     "workTitle": "代表作品。",
     "caseStudy": "阅读项目案例",
     "source": "查看源码",
-    "linkloomSummary": "沿着不断更新的会议记录追踪决策，把当前答案与原始证据、生效日期和审查历史连接起来。",
+    "linkloomSummary": "从会议记录里提取议题、决定和待办，跨会议追踪同一件事的变化。每条结论附原文证据，人工确认后才生效。",
     "highlights": [
       [
-        "跟随决策变化。",
-        "跨会议连接当前决定与历史版本。"
+        "跟进同一件事。",
+        "跨会议连接相关议题、决定与待办，保留每次变化。"
       ],
       [
-        "从答案追溯到来源。",
-        "查看支持答案的原始记录、日期和原文片段。"
+        "每条结论，都有原文。",
+        "查看结论对应的会议记录、日期与证据片段。"
       ],
       [
-        "通过受控 Agent 调查。",
-        "围绕来源关系与任务变化，进行有边界、只读的调查。"
+        "人工确认，再生效。",
+        "核对抽取结果与原文，确认后才作为有效记录。"
       ]
     ],
     "reviewTitle": "AI 辅助代码审查",

@@ -26,14 +26,14 @@ export const projects = [
       "Evaluation"
     ],
     "en": {
-      "headline": "Decisions change.\nYour team's answers should keep up.",
-      "summary": "Track decisions across evolving meeting notes, with the current answer connected to its original evidence, effective date and review history.",
+      "headline": "Decisions and action items keep changing.\nYour team's answers should keep up.",
+      "summary": "Extract topics, decisions and action items from meeting notes. Track changes across meetings, with source evidence for each conclusion and human confirmation before it takes effect.",
       "caption": "Demo shown with sample data.",
       "alt": "LinkLoom historical lookup showing Birchline valid on 7 October 2026, its effective dates and the exact supporting source passage."
     },
     "zh": {
-      "headline": "决策在变，\n团队的答案也要跟得上。",
-      "summary": "沿着不断更新的会议记录追踪决策，把当前答案与原始证据、生效日期和审查历史连接起来。",
+      "headline": "会议里的决定和待办一直在变，\n团队的答案也要跟得上。",
+      "summary": "从会议记录里提取议题、决定和待办，跨会议追踪同一件事的变化。每条结论附原文证据，人工确认后才生效。",
       "caption": "演示使用示例数据。",
       "alt": "LinkLoom 历史查询：2026 年 10 月 7 日有效的 Birchline 决策、生效日期和支持结论的原文片段。"
     }
